@@ -1,0 +1,38 @@
+hostname: watchdog-host-01                          # 主机名称
+logging:
+  log_file: /var/log/watchdog-host.log              # 日志文件路径
+notify:
+  email:
+    enabled: false                                  # 是否启用邮件通知
+    smtp_server: smtp.example.com                   # SMTP 服务器地址
+    smtp_port: 587                                  # SMTP 服务器端口
+    username: user@example.com                      # SMTP 用户名
+    password: yourpassword                          # SMTP 密码
+    from_addr: user@example.com                     # 发件人地址
+    to_addrs:
+      - admin@example.com                           # 收件人地址
+    subject: "Watchdog Host Alert"                  # 邮件主题
+    message: "Alert from Watchdog Host: {message}"  # 邮件内容模板
+    cooldown: 3600                                  # 通知冷却时间，单位秒
+  dingtalk:
+    enabled: false                                  # 是否启用钉钉通知
+    access_token: your_access_token                 # 钉钉机器人访问令牌
+    secret: your_secret                             # 钉钉机器人密钥（可选）
+    title: "Watchdog Host Alert"                    # 钉钉消息标题
+    message: "{message}"                            # 钉钉消息内容模板
+    cooldown: 3600                                  # 通知冷却时间，单位秒
+  wecom:
+    enabled: false                                  # 是否启用企业微信通知
+    webhook_key: your_webhook_key                   # 企业微信机器人 Webhook Key
+    title: "Watchdog Host Alert"                    # 企业微信消息标题
+    message: "{message}"                            # 企业微信消息内容模板
+    cooldown: 3600                                  # 通知冷却时间，单位秒
+
+bandwidth:
+  interfaces:
+    - eth0                                          # 要监控的网卡列表，可添加多个
+  bandwidth_max: 2000GB                             # 流量阈值，可写 2000, 2000GB, 2T, 2tb
+  data_file: bandwidth_usage.json                   # 持久化流量文件
+  check_interval: 60                                # 检查间隔，单位秒
+  alarm_rate: 95                                    # 额度使用比例告警，单位 100%
+  shutdown: true                                    # 达到流量阈值 100% 时是否关闭主机

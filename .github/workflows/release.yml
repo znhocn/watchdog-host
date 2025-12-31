@@ -1,0 +1,67 @@
+name: Build & Release & Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+# 這是 OIDC 認證和建立 Release 所需的權限
+permissions:
+  id-token: write  # PyPI 發佈必備
+  contents: write  # GitHub Release 寫入必備
+
+jobs:
+  github-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    outputs:
+      # 定義輸出，讓下一個 Job 可以知道這是一個成功的 Release
+      release_id: ${{ steps.create_release.outputs.id }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+        # run: uv python install
+
+      - name: Build project
+        run: |
+          uv sync
+          uv build
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package-dist
+          path: dist/
+
+  publish-package:
+    name: Publish to PyPI
+    needs: github-release
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/${{ secrets.PYPI_USERNAME }}
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-dist
+          path: dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/

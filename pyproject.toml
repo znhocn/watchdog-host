@@ -1,0 +1,37 @@
+[project]
+name = "watchdog-host"
+version = "1.0.0"
+description = "Watchdog Host is a tool for automatically managing hosts."
+readme = "README.md"
+authors = [
+    { name = "John", email = "me@hakr.xyz" }
+]
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "psutil>=7.2.1",
+    "pyyaml>=6.0.3",
+    "requests>=2.32.5",
+    "typer>=0.21.0",
+]
+
+[project.scripts]
+watchdog-host = "watchdog_host.cli:app"
+wcd-bandwidth = "watchdog_host.bandwidth:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/README.md",
+    "/LICENSE",
+]
+
+[tool.hatch.envs.default]
+dependencies = [
+    "pytest",
+    "ruff"
+]

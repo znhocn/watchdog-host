@@ -1,0 +1,17 @@
+[Unit]
+Description=Network Traffic Monitor Service
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/etc/watchdog
+ExecStart=/usr/bin/wcd-bandwidth -c /etc/watchdog/config.yaml
+Restart=always
+RestartSec=30
+User=root
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
