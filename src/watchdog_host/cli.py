@@ -32,7 +32,13 @@ def _render_systemd_service(src: Path) -> str:
     replace /usr/bin/ with current python bin dir
     ONLY in ExecStart lines.
     """
-    python_bin_dir = os.path.dirname(sys.executable)
+    # # 当前 Python 可执行文件所在目录
+    # python_bin_dir = os.path.dirname(sys.executable)
+    # bin_dir_str = str(python_bin_dir) + "/"
+
+    # 当前命令自身所在的目录（pip install 后生成的 watchdog-host 脚本所在位置）
+    own_bin_dir = Path(sys.argv[0]).resolve().parent
+    bin_dir_str = str(own_bin_dir) + "/"
 
     content = src.read_text(encoding="utf-8")
     lines = content.splitlines(keepends=True)
@@ -40,7 +46,7 @@ def _render_systemd_service(src: Path) -> str:
     rendered = []
     for line in lines:
         if line.startswith("ExecStart=") and "/usr/bin/" in line:
-            line = line.replace("/usr/bin/", f"{python_bin_dir}/")
+            line = line.replace("/usr/bin/", bin_dir_str, 1)
         rendered.append(line)
 
     return "".join(rendered)
