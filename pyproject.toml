@@ -1,6 +1,6 @@
 [project]
 name = "watchdog-host"
-version = "1.0.0"
+version = "1.0.1"
 description = "Watchdog Host is a tool for automatically managing hosts."
 readme = "README.md"
 authors = [
