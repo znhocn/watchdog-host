@@ -38,6 +38,22 @@ systemctl enable --now <service>.service
 systemctl status <service>.service
 ```
 
+If your system version is Ubuntu 24.04 / Debian 12 or later, use this command.
+
+```shell
+apt update
+apt install -y pipx
+pipx ensurepath
+pipx install watchdog-host
+source ~/.bashrc
+
+pip install watchdog-host
+watchdog-host init
+vim /etc/watchdog/config.yaml
+systemctl enable --now <service>.service
+systemctl status <service>.service
+```
+
 ## Uninstallation
 
 ```shell

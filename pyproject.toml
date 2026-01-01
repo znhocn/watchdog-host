@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
     { name = "John", email = "me@hakr.xyz" }
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 license = { text = "MIT" }
 dependencies = [
     "psutil>=7.2.1",
