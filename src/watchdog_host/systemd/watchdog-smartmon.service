@@ -1,0 +1,20 @@
+[Unit]
+Description=Disk SMART Health Monitor Service
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/etc/watchdog
+ExecStart=/usr/bin/wcd-smartmon -c /etc/watchdog/config.yaml
+Restart=always
+RestartSec=30
+User=root
+SupplementaryGroups=disk
+CapabilityBoundingSet=CAP_SYS_RAWIO CAP_SYS_ADMIN
+AmbientCapabilities=CAP_SYS_RAWIO CAP_SYS_ADMIN
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

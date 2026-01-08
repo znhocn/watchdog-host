@@ -1,6 +1,6 @@
 [project]
 name = "watchdog-host"
-version = "1.0.2"
+version = "1.0.3"
 description = "Watchdog Host is a tool for automatically managing hosts."
 readme = "README.md"
 authors = [
@@ -10,6 +10,7 @@ requires-python = ">=3.10"
 license = { text = "MIT" }
 dependencies = [
     "psutil>=7.2.1",
+    "pysmart>=1.4.2",
     "pyyaml>=6.0.3",
     "requests>=2.32.5",
     "typer>=0.21.0",
@@ -18,6 +19,7 @@ dependencies = [
 [project.scripts]
 watchdog-host = "watchdog_host.cli:app"
 wcd-bandwidth = "watchdog_host.bandwidth:main"
+wcd-smartmon = "watchdog_host.smartmon:main"
 
 [build-system]
 requires = ["hatchling"]

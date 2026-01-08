@@ -36,3 +36,18 @@ bandwidth:
   check_interval: 60                                # 检查间隔，单位秒
   alarm_rate: 95                                    # 额度使用比例告警，单位 100%
   shutdown: true                                    # 达到流量阈值 100% 时是否关闭主机
+
+disk-smart:
+  interfaces:
+    - nvme0n1
+    - sda                                           # 要监控的磁盘列表，可添加多个
+  check_interval: 43200                             # 检查间隔，单位秒
+  alarm_assessment: PASSED                          # 健康状态告警阈值，可选 PASSED, WARNING, FAILED
+  alarm_reallocated_sectors: 0                      # 重映射扇区告警阈值
+  alarm_pending_sectors: 0                          # 待处理扇区告警阈值
+  alarm_uncorrectable_sectors: 0                    # 不可纠正扇区告警阈值
+  alarm_media_errors: 0                             # 媒体错误告警阈值
+  alarm_temperature: 70                             # 温度告警阈值，单位摄氏度
+  alarm_power_on_hours: 43800                       # 通电时间告警阈值，单位小时
+  alarm_power_cycle_count: 1000                     # 通电次数告警阈值
+  alarm_percentage_used: 90                         # 百分比使用率告警阈值，适用于部分 SSD
